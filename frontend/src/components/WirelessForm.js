@@ -22,24 +22,10 @@ const WirelessForm = () => {
     e.preventDefault();
     setError('');
     setResult(null);
-
-    // Input Validation
-    if (!inputs.samplingRate || isNaN(inputs.samplingRate)) {
-      setError("Please enter a valid number for Sampling Rate");
-      return;
-    }
-    if (!inputs.quantizationBits || isNaN(inputs.quantizationBits)) {
-      setError("Please enter a valid number for Quantization Bits");
-      return;
-    }
-    if (!inputs.sourceCodingRate || isNaN(inputs.sourceCodingRate)) {
-      setError("Please enter a valid number for Source Coding Rate");
-      return;
-    }
-
     setLoading(true);
+
     try {
-      const response = await fetch('https://wireless-backend-kihb.onrender.com/api/wireless', {
+      const response = await fetch('http://localhost:5000/api/wireless', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputs)
@@ -60,17 +46,48 @@ const WirelessForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h3>Wireless Communication System</h3>
-      <input name="samplingRate" placeholder="Sampling Rate (Hz)" onChange={handleChange} />
-      <input name="quantizationBits" placeholder="Quantization Bits" onChange={handleChange} />
-      <input name="sourceCodingRate" placeholder="Source Coding Rate" onChange={handleChange} />
-      <input name="channelCodingRate" placeholder="Channel Coding Rate" onChange={handleChange} />
-      <input name="interleavingRate" placeholder="Interleaving Rate" onChange={handleChange} />
-      <input name="burstFormattingRate" placeholder="Burst Formatting Rate" onChange={handleChange} />
+
+      <input
+        name="samplingRate"
+        placeholder="Sampling Rate (Hz)"
+        onChange={handleChange}
+        value={inputs.samplingRate}
+      />
+      <input
+        name="quantizationBits"
+        placeholder="Quantization Bits"
+        onChange={handleChange}
+        value={inputs.quantizationBits}
+      />
+      <input
+        name="sourceCodingRate"
+        placeholder="Source Coding Rate"
+        onChange={handleChange}
+        value={inputs.sourceCodingRate}
+      />
+      <input
+        name="channelCodingRate"
+        placeholder="Channel Coding Rate"
+        onChange={handleChange}
+        value={inputs.channelCodingRate}
+      />
+      <input
+        name="interleavingRate"
+        placeholder="Interleaving Rate"
+        onChange={handleChange}
+        value={inputs.interleavingRate}
+      />
+      <input
+        name="burstFormattingRate"
+        placeholder="Burst Formatting Rate"
+        onChange={handleChange}
+        value={inputs.burstFormattingRate}
+      />
 
       <button type="submit">Compute</button>
 
-      {loading && <p>Loading... Please wait.</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {loading && <p className="loading">Loading... Please wait.</p>}
+      {error && <p className="error">{error}</p>}
 
       {result && (
         <div className="result-box">
